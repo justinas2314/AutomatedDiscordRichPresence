@@ -5,7 +5,7 @@ Compile main.rs and write custom commands inside `commands.txt`.
 The commands look like this:
 keyword,, description,, state,, bigimage,, smallimage.
 To leave the place blank write `,, ,,`.
-DO NOT write `,,,,` it is not clear and doesn't work the same way as ',, ,,'.
+DO NOT write `,,,,` it is not clear and doesn't work the same way as `,, ,,`.
 To leave the place as a placeholder write `,, .. ,,`.
 If description is left as `..` the full name of the window will be used.
 If state is left as `..` it will be used to fit a part of the description.
