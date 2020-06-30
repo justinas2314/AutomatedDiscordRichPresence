@@ -7,9 +7,11 @@ extern crate discord_rpc_client;
 use discord_rpc_client::Client;
 
 fn main() {
+    // should switch to using .ini files instead of commands.txt
     // doesn't work on linux yet
     let contents= std::fs::read_to_string(
-        "C:\\Users\\stask\\IdeaProjects\\DiscordRichActivity\\src\\commands.txt").unwrap();
+        "C:\\Users\\stask\\Cloned github repos\
+        \\AutomatedDiscordRichPresence\\src\\commands.txt").unwrap();
     let mut rpc_client = Client::new(696035653711953981)
         .unwrap();
     rpc_client.start();
