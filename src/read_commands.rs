@@ -1,6 +1,11 @@
 use std::collections::HashMap;
 
-fn parse_line(string:&str) -> Vec<&str> {
+
+// lower means only read lowercase lines
+fn parse_line(string:&str, lower: bool) -> Option<Vec<&str>> {
+    if lower == (string[0..1].to_uppercase() == string[0..1]) {
+        return None;
+    }
     let mut prev_index = 0;
     let mut output = Vec::new();
     let length = match string.len() {
@@ -20,21 +25,28 @@ fn parse_line(string:&str) -> Vec<&str> {
         }
     }
     output.push(&string[prev_index..].trim());
-    output
+    Some(output)
 }
 
 
 pub fn main(contents: &str) -> HashMap<&str, (&str, &str, &str, &str, &str, &str)> {
-    let mut dict = std::collections::HashMap::new();
+    let mut dict = HashMap::new();
     for i in contents.lines() {
-        let output = parse_line(i);
-        dict.insert(output[0],
-                    (output[1], output[2], output[3], output[4], output[5], output[6]));
+        if let Some(output) = parse_line(i, true) {
+            dict.insert(output[0],
+                        (rp(&output, 1),
+                            rp(&output, 2),
+                            rp(&output, 3),
+                            rp(&output, 4),
+                            rp(&output, 5),
+                            rp(&output,6)));
+        }
     }
     dict
 }
 
-pub fn order(text:&str) -> Vec<&str> {
+
+pub fn order(text: &str) -> Vec<&str> {
     let mut output = Vec::new();
     for string in text.lines() {
         let length = match string.len() {
@@ -53,6 +65,7 @@ pub fn order(text:&str) -> Vec<&str> {
     output
 }
 
+
 pub fn get_ordered(apps: Vec<(String, String)>, order: &Vec<&str>) -> Option<(String, String)> {
     for i in order {
         for j in &apps {
@@ -62,4 +75,30 @@ pub fn get_ordered(apps: Vec<(String, String)>, order: &Vec<&str>) -> Option<(St
         }
     }
     None
+}
+
+
+pub fn bases(contents: &str) -> HashMap<&str, (&str, &str, &str, &str, &str, &str)> {
+    let mut dict = HashMap::new();
+    for i in contents.lines() {
+        if let Some(output) = parse_line(i, false) {
+            dict.insert(output[0],
+                        (rp(&output, 1),
+                            rp(&output, 2),
+                            rp(&output, 3),
+                            rp(&output, 4),
+                            rp(&output, 5),
+                            rp(&output,6)));
+        }
+    }
+    dict
+}
+
+
+// gets the value from a vector and if the value doesn't exist returns ""
+fn rp<'a>(input: &Vec<&'a str>, index: usize) -> &'a str {
+    match input.get(index) {
+        Some(x) => *x,
+        None => ""
+    }
 }

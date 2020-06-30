@@ -6,6 +6,7 @@ extern crate discord_rpc_client;
 
 use discord_rpc_client::Client;
 
+
 fn main() {
     // should switch to using .ini files instead of commands.txt
     // doesn't work on linux yet
@@ -17,6 +18,7 @@ fn main() {
     rpc_client.start();
     let commands = read_commands::main(&contents);
     let order = read_commands::order(&contents);
+    let bases = read_commands::bases(&contents);
     loop {
         // no sleeping because this part is really slow (thanks windows)
         let running_apps = get_apps::main(&commands);
@@ -24,8 +26,9 @@ fn main() {
             Some(x) => x,
             None => ("clear".to_string(), "clear".to_string())
         };
-        println!("{}\n{}", &running_app.1, &running_app.0);
-        client::main(&mut rpc_client, &commands,
-                     vec![&running_app.1, &running_app.0]);
+        println!("this app detected -> '{}'\nthis title detected -> '{}'", &running_app.1, &running_app.0);
+        // &running_app.1 must be the first arg in parsed_input
+        client::main(&mut rpc_client, &commands, &bases,
+                     vec![&running_app.1, &running_app.0, &running_app.0, &running_app.0, &running_app.0]);
     }
 }
