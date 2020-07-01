@@ -47,10 +47,12 @@ fn function(client: &mut Client, vector: &Vec<&str>,
     };
     let large_image = match defaults.2 {
         x if bases.contains_key(x) => bases[x].2,
+        "" => " ",
         x => x
     };
     let small_image = match defaults.3 {
         x if bases.contains_key(x) => bases[x].3,
+        "" => " ",
         x => x
     };
     if state.len() == 0 && details.len() >= 20 {
@@ -89,7 +91,7 @@ fn function(client: &mut Client, vector: &Vec<&str>,
             }
         })) {
         println!("error occurred while setting an activity -> {}", e);
-        println!("details -> \t ,{}; ,{}; ,{}; ,{}; ,{}; ,{};", state, details, large_image, small_image, large_text, small_text);
+        println!("details -> \t ,{}; ,{}; ,{}; ,{}; ,{}; ,{};", details, state, large_image, small_image, large_text, small_text);
     }
 }
 
@@ -126,6 +128,13 @@ pub fn main(mut client: &mut Client, presets: &HashMap<&str, (&str, &str, &str, 
     // ',, ,,' leaves the value as ''
     // ',,,' splits and writes a comma (,)
     // ',,,,' <- this is retarded and messes the code up don't do this
+    // you can create a conditional list '[string1,, string2]'
+    // every value inside this list must be included to match
+    // ',,--' makes sure that the following value is not included
+    // ',, --' does nothing, use this if you want '--' in your string that must match
+    // the details and state values cannot be less than 4 or more than 29
+    // if the length is less than 4 it will be automatically replaced with "    "
+    // if it is more than 29 an error will occur
     match parsed_input.get(0){
         Some(&"clear") => clear(&mut client),
         Some(x) => function(&mut client,

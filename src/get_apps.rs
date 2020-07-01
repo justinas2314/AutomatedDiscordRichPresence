@@ -41,8 +41,13 @@ fn parse_line(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>, li
     for i in commands.keys() {
         let mut contains = true;
         for j in i.split(",,") {
-            if !lowercase_line.contains(j.replace("[", "").replace("]", "").trim()) {
-               contains = false;
+            if j.len() > 2 && &j[0..2] == "--" {
+                if lowercase_line.contains(j[2..].replace("[", "").replace("]", "").trim()) {
+                    contains = false;
+                    break;
+                }
+            } else if !lowercase_line.contains(j.replace("[", "").replace("]", "").trim()) {
+                contains = false;
                 break;
             }
         }
@@ -52,5 +57,5 @@ fn parse_line(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>, li
             break;
         }
     }
-    (output_full.replace("\"", ""), output_base)
+    (output_full.replace("N/A", "").replace("\"", ""), output_base)
 }
