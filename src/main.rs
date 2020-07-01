@@ -19,7 +19,7 @@ fn main() {
     let order = read_commands::order(&contents);
     let bases = read_commands::bases(&contents);
     loop {
-        // no sleeping because this part is really slow (thanks windows)
+        // updates every minute
         let running_apps = get_apps::main(&commands);
         let running_app = match read_commands::get_ordered(running_apps, &order) {
             Some(x) => x,
@@ -29,5 +29,6 @@ fn main() {
         // &running_app.1 must be the first arg in parsed_input
         client::main(&mut rpc_client, &commands, &bases,
                      vec![&running_app.1, &running_app.0, &running_app.0, &running_app.0, &running_app.0]);
+        std::thread::sleep(std::time::Duration::from_secs(60));
     }
 }

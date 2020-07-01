@@ -33,13 +33,13 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         _ if defaults.1.len() < 4 => "    ",
         _ => defaults.1
     };
-    let large_text = match vector.get(3) {
+    let mut large_text = match vector.get(3) {
         Some(x) if defaults.4 == ".." => *x,
         Some(x) if match bases.get(defaults.4) {Some(x) if x.4 == ".." => true, _ => false} => *x,
         _ if bases.contains_key(defaults.4) => bases[defaults.4].4,
         _ => defaults.4
     };
-    let small_text = match vector.get(4) {
+    let mut small_text = match vector.get(4) {
         Some(x) if defaults.5 == ".." => *x,
         Some(x) if match bases.get(defaults.5) {Some(x) if x.5 == ".." => true, _ => false} => *x,
         _ if bases.contains_key(defaults.5) => bases[defaults.5].5,
@@ -59,6 +59,18 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         let output = split_line(details);
         details = output.0; // why couldn't I use deconstruction (tuple unpacking) here?
         state = output.1; // the compiler decided to complain lol
+    }
+    if state.len() >= 30 {
+        state = "    ";
+    }
+    if details.len() >= 30 {
+        details = "    ";
+    }
+    if large_text.len() > 128 {
+        large_text = "";
+    }
+    if small_text.len() > 128 {
+        small_text = "";
     }
     if let Err(e) = client.set_activity(|activity| activity
         .details(details)
@@ -97,6 +109,9 @@ fn split_line(line: &str) -> (&str, &str) {
     let mut bigger_split_index = 0;
     for (i, j) in line.chars().enumerate() {
         if j == ' ' {
+            if i >= 30 { // strings can't be longer than that
+                break;
+            }
             if i > 20 {
                 bigger_split_index = i;
                 break;
