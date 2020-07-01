@@ -7,7 +7,7 @@ use std::collections::HashMap;
 
 fn clear(client: &mut Client) {
     if let Err(e) = client.clear_activity() {
-        println!("error occurred while clearing the activity \n{}", e);
+        println!("Failed to clear the current activity -> {}", e);
     }
 }
 
@@ -88,8 +88,8 @@ fn function(client: &mut Client, vector: &Vec<&str>,
                 }
             }
         })) {
-        println!("error occurred while setting an activity \n {}", e);
-        println!("details -> \t ,{}; ,{}; ,{}; ,{};", state, details, defaults.2, defaults.3);
+        println!("error occurred while setting an activity -> {}", e);
+        println!("details -> \t ,{}; ,{}; ,{}; ,{}; ,{}; ,{};", state, details, large_image, small_image, large_text, small_text);
     }
 }
 

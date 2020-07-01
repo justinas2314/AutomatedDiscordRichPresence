@@ -1,6 +1,6 @@
 FIREFOX,, ,, ,, firefoxlogo
 CODE,, .. ,, .. ,, intellijidealogo,,
-intellij idea,, CODE,, CODE,, intellijidealogo,, rustlogo ,, .. ,, ..
+[intellij idea,, .rs],, CODE,, CODE,, intellijidealogo,, rustlogo ,, .. ,, ..
 pycharm,, CODE,, CODE,, pycharmlogo,, pythonlogo ,, ,,
 crunchyroll,, ,, ,, FIREFOX,, crunchyrolllogo ,, ,,
 github,, ,, ,, FIREFOX,, githublogo ,, ,,

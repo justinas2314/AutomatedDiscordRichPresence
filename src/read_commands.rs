@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 // lower means only read lowercase lines
 fn parse_line(string:&str, lower: bool) -> Option<Vec<&str>> {
-    if lower == (string[0..1].to_uppercase() == string[0..1]) {
+    if lower == ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains(&string[0..1])) {
         return None;
     }
     let mut prev_index = 0;
@@ -12,11 +12,18 @@ fn parse_line(string:&str, lower: bool) -> Option<Vec<&str>> {
         0 => 0,
         x => x - 1
     };
+    let mut skip = false;
     for i in 0..length {
         if prev_index > i {
             continue;
         }
-        if &string[i..i + 2] == ",," {
+        match &string[i..i + 1] {
+            "[" if i != 0 && &string[i - 1..i] == "\\" => {skip = false;},
+            "[" => {skip = true;},
+            "]" => {skip = false;},
+            _ => ()
+        }
+        if &string[i..i + 2] == ",," && !skip {
             let val = &string[prev_index..i];
             if val.len() != 0 {
                 output.push(val.trim());
@@ -53,8 +60,15 @@ pub fn order(text: &str) -> Vec<&str> {
             0 => 0,
             x => x - 1
         };
+        let mut skip = false;
         for i in 0..length {
-            if &string[i..i + 2] == ",," {
+            match &string[i..i + 1] {
+                "[" if i != 0 && &string[i - 1..i] == "\\" => {skip = false;},
+                "[" => {skip = true;},
+                "]" => {skip = false;},
+                _ => ()
+            }
+            if &string[i..i + 2] == ",," && !skip {
                 let val = &string[0..i];
                 if val.len() != 0 {
                     output.push(val.trim());

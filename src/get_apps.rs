@@ -31,6 +31,7 @@ fn parse_line(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>, li
     let mut string = String::new();
     let mut output_full = String::new();
     let mut output_base = String::new();
+    let lowercase_line = line.to_lowercase();
     for i in line.trim().chars() {
         match i {
             ',' => {string.clear();},
@@ -38,9 +39,16 @@ fn parse_line(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>, li
         }
     }
     for i in commands.keys() {
-        if string.to_lowercase().contains(*i) {
+        let mut contains = true;
+        for j in i.split(",,") {
+            if !lowercase_line.contains(j.replace("[", "").replace("]", "").trim()) {
+               contains = false;
+                break;
+            }
+        }
+        if contains {
             output_full.push_str(&string);
-            output_base.push_str(*i);
+            output_base.push_str(i);
             break;
         }
     }
