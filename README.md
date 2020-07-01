@@ -1,5 +1,6 @@
 # AutomatedDiscordRichPresence
-While the code runs it updates the Discord rich presence
+Create custom Discord Rich Presences that toggle on while a certain app is running.  
+This is not a serious project. I am doing this because I've started learning Rust and wanted to write something in it. 
 # Usage
 Compile main.rs and write custom commands inside `commands.txt`.  
 The commands look like this:  
