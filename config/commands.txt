@@ -1,7 +1,9 @@
 FIREFOX,, ,, ,, firefoxlogo
-CODE,, .. ,, .. ,, intellijidealogo,,
-[intellij idea,, .rs],, CODE,, CODE,, intellijidealogo,, rustlogo ,, .. ,, ..
-pycharm,, CODE,, CODE,, pycharmlogo,, pythonlogo ,, ,,
+CODE,, .. ,, .. ,, intellijidealogo,, .. ,, .. ,, ..
+[intellij idea,, .rs],, CODE,, CODE,, intellijidealogo,, rustlogo ,, CODE
+[intellij idea],, CODE,, CODE,, intellijidealogo,, .. ,, CODE
+[pycharm,, .py] ,, CODE,, CODE,, pycharmlogo,, pythonlogo ,, CODE
+[pycharm],, CODE,, CODE,, pycharmlogo,, .. ,, CODE
 [firefox.exe,, crunchyroll,,--private],, ,, ,, FIREFOX,, crunchyrolllogo ,, ,,
 [firefox.exe,, github,,--private],, ,, ,, FIREFOX,, githublogo ,, ,,
 [firefox.exe,, mangadex,,--private],, ,, ,, FIREFOX,, mangadexlogo ,, ,,

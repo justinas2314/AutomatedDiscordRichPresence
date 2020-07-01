@@ -43,7 +43,7 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         Some(x) if defaults.5 == ".." => *x,
         Some(x) if match bases.get(defaults.5) {Some(x) if x.5 == ".." => true, _ => false} => *x,
         _ if bases.contains_key(defaults.5) => bases[defaults.5].5,
-        _ => defaults.4
+        _ => defaults.5
     };
     let large_image = match defaults.2 {
         x if bases.contains_key(x) => bases[x].2,
@@ -60,10 +60,6 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         details = output.0; // why couldn't I use deconstruction (tuple unpacking) here?
         state = output.1; // the compiler decided to complain lol
     }
-    // if let Err(e) = client.clear_activity() {
-    // 	println!("an error occured while clearing the activity \n {}", e);
-    // }
-    // need a better closure here
     if let Err(e) = client.set_activity(|activity| activity
         .details(details)
         .state(state)
