@@ -22,6 +22,10 @@ If description is left as `..` the full name of the window will be used.
 If state is left as `..` it will be used to fit a part of the description if the description is longer than 20 chars.  
 If the images are left as placeholders they will not be used.  
 Image text left as placeholder will also change to the full name of the window.  
+# Notes
+I will probably add more images in the future  
+I might add support for the rest of the things you can do with discord rich presence  
+The way that commands.txt works sucks and I might implement a better way to get those presets  
 # Images that can be used right now
 androidstudiologo  
 chromelogo  
