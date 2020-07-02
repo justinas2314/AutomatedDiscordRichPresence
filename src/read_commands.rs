@@ -18,9 +18,9 @@ fn parse_line(string:&str, lower: bool) -> Option<Vec<&str>> {
             continue;
         }
         match &string[i..i + 1] {
-            "[" if i != 0 && &string[i - 1..i] == "\\" => {skip = false;},
+            "[" if i != 0 && &string[i - 1..i] == "\\" => (),
             "[" => {skip = true;},
-            "]" if i != 0 && &string[i - 1..i] == "\\" => {skip = true;},
+            "]" if i != 0 && &string[i - 1..i] == "\\" => (),
             "]" => {skip = false;},
             _ => ()
         }
@@ -64,9 +64,9 @@ pub fn order(text: &str) -> Vec<&str> {
         let mut skip = false;
         for i in 0..length {
             match &string[i..i + 1] {
-                "[" if i != 0 && &string[i - 1..i] == "\\" => {skip = false;},
+                "[" if i != 0 && &string[i - 1..i] == "\\" => (),
                 "[" => {skip = true;},
-                "]" if i != 0 && &string[i - 1..i] == "\\" => {skip = true;},
+                "]" if i != 0 && &string[i - 1..i] == "\\" => (),
                 "]" => {skip = false;},
                 _ => ()
             }
@@ -74,6 +74,7 @@ pub fn order(text: &str) -> Vec<&str> {
                 let val = &string[0..i];
                 if val.len() != 0 {
                     output.push(val.trim());
+                    break;
                 }
             }
         }

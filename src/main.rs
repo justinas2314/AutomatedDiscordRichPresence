@@ -18,6 +18,7 @@ fn main() {
     let commands = read_commands::main(&contents);
     let order = read_commands::order(&contents);
     let bases = read_commands::bases(&contents);
+    println!("order -> {:?}", order);
     loop {
         // updates every minute
         let running_apps = get_apps::main(&commands);
