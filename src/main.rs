@@ -20,7 +20,7 @@ fn main() {
     let bases = read_commands::bases(&contents);
     loop {
         // updates every minute
-        let running_apps = get_apps::main(&commands);
+        let running_apps = get_apps::main(&order);
         let running_app = match read_commands::get_ordered(running_apps, &order) {
             Some(x) => x,
             None => ("clear".to_string(), "clear".to_string())

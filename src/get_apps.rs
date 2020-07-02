@@ -1,8 +1,5 @@
-use std::collections::HashMap;
-
-
 // (full, base)
-pub fn main(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>) -> Vec<(String, String)> {
+pub fn main(order: &Vec<&str>) -> Vec<(String, String)> {
     // the part where I request windows to give me the list
     // of all tasks is so slow that i don't need to make the code sleep
     // this part only works on windows
@@ -17,7 +14,7 @@ pub fn main(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>) -> V
         .unwrap();
     let mut data = Vec::new();
     for i in s.lines() {
-        let (full, base) = parse_line(commands, i);
+        let (full, base) = parse_line(&order, i);
         if full.len() != 0 {
             data.push((full, base));
         }
@@ -27,7 +24,7 @@ pub fn main(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>) -> V
 
 
 // (full name, base name)
-fn parse_line(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>, line: &str) -> (String, String) {
+fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
     let mut string = String::new();
     let mut output_full = String::new();
     let mut output_base = String::new();
@@ -38,7 +35,7 @@ fn parse_line(commands: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>, li
             x => {string.push(x);}
         }
     }
-    for i in commands.keys() {
+    for i in order {
         let mut contains = true;
         for j in i.split(",,") {
             if j.len() > 2 && &j[0..2] == "--" {

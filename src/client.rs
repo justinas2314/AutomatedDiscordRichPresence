@@ -100,6 +100,7 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         })) {
         println!("error occurred while setting an activity -> {}", e);
         println!("details -> \t ,{}; ,{}; ,{}; ,{}; ,{}; ,{};", details, state, large_image, small_image, large_text, small_text);
+        println!("if your internet connection is stable this might be a bug");
     }
 }
 
