@@ -4,6 +4,7 @@ This is not a serious project. I am doing this because I've started learning Rus
 ONLY WORKS ON WINDOWS
 # Usage
 Compile main.rs and write custom commands inside `commands.txt`.  
+There is an example `commands.txt` file included.  
 The commands look like this:  
 what_to_detect,, description,, state,, bigimage,, smallimage,, bigimagetext,, smallimagetext.  
 'what_to_detect' can be used as a single string or as a few strings that must or must not be included in the window's name.
