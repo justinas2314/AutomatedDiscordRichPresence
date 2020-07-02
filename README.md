@@ -22,7 +22,7 @@ If description is left as `..` the full name of the window will be used.
 If state is left as `..` it will be used to fit a part of the description if the description is longer than 20 chars.  
 If the images are left as placeholders they will not be used.  
 Image text left as placeholder will also change to the full name of the window.  
-# Images that can be used
+# Images that can be used right now
 androidstudiologo  
 chromelogo  
 cpplogo  
