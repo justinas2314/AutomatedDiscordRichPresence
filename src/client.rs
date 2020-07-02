@@ -19,6 +19,7 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         Some(x) => *x,
         None => ("", "", "", "", "", "") // causes an error later (that's intended lol)
     };
+    // i don't know what this does anymore
     let mut details = match vector.get(1) {
         Some(x) if defaults.0 == ".." => *x,
         Some(x) if match bases.get(defaults.0) {Some(x) if x.0 == ".." => true, _ => false} => *x,
@@ -100,7 +101,6 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         })) {
         println!("error occurred while setting an activity -> {}", e);
         println!("details -> \t ,{}; ,{}; ,{}; ,{}; ,{}; ,{};", details, state, large_image, small_image, large_text, small_text);
-        println!("if your internet connection is stable this might be a bug");
     }
 }
 
@@ -122,6 +122,7 @@ fn split_line(line: &str) -> (&str, &str) {
         }
     }
     let split_index = match (smaller_split_index, bigger_split_index) {
+        // does abs() exist in rust?
         (x, y) if (20 - x as i32) * (20 - x as i32) > (20 - y as i32) * (20 - y as i32) => y,
         (x, _) => x,
     };
@@ -145,8 +146,8 @@ pub fn main(mut client: &mut Client, presets: &HashMap<&str, (&str, &str, &str, 
     // ',,--' makes sure that the following value is not included
     // ',, --' does nothing, use this if you want '--' in your string that must match
     // the details and state values cannot be less than 4 or more than 29
-    // if the length is less than 4 it will be automatically replaced with "    "
-    // if it is more than 29 an error will occur
+    // the image texts cannot be longer than 128
+    // all of these will change to "    " or "" to prevent crashes
     match parsed_input.get(0){
         Some(&"clear") => clear(&mut client),
         Some(x) => function(&mut client,

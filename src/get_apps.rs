@@ -1,7 +1,7 @@
 // (full, base)
 pub fn main(order: &Vec<&str>) -> Vec<(String, String)> {
     // the part where I request windows to give me the list
-    // of all tasks is so slow that i don't need to make the code sleep
+    // this is also the slowest part
     // this part only works on windows
     let var = std::process::Command::new("tasklist")
         .arg("/v")

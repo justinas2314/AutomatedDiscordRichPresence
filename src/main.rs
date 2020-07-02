@@ -8,10 +8,9 @@ use discord_rpc_client::Client;
 
 
 fn main() {
-    // should switch to using .ini files instead of commands.txt
-    // doesn't work on linux yet
     let contents= std::fs::read_to_string(
         "config\\commands.txt").unwrap();
+    // my hard-coded client change this to use a different client
     let mut rpc_client = Client::new(696035653711953981)
         .unwrap();
     rpc_client.start();
@@ -27,6 +26,8 @@ fn main() {
         };
         println!("this app detected -> '{}'\nthis title detected -> '{}'", &running_app.1, &running_app.0);
         // &running_app.1 must be the first arg in parsed_input
+        // the var parsed_input is not the actual parsed input
+        // back in my day this used to work differently
         client::main(&mut rpc_client, &commands, &bases,
                      vec![&running_app.1, &running_app.0, &running_app.0, &running_app.0, &running_app.0]);
         std::thread::sleep(std::time::Duration::from_secs(60));
