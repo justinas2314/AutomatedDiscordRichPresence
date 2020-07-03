@@ -1,4 +1,4 @@
 /.idea
 /target
-DiscordRichActivity.iml
+*.iml
 config/commands.txt
