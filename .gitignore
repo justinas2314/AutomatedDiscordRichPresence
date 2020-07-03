@@ -1,4 +1,5 @@
 /.idea
 /target
+/usable_images
 *.iml
 config/commands.txt
