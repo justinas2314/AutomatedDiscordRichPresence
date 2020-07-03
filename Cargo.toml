@@ -1,6 +1,6 @@
 [package]
 name = "discord_rich_activity"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Justinas Staskevicius <staskevicius14@gmail.com>"]
 edition = "2018"
 
