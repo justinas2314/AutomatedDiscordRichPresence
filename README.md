@@ -12,8 +12,7 @@ The following arguments can be used:
  small_image  
  large_text   
  small_text  
-'what_to_detect' can be used as a single string or as a few strings that must or must not be included in the window's name.
-It can be used like this `[firefox.exe, -private]`.
+The first line is where the preset will be defined. It can be written like this `[firefox.exe, -private]`.
 Here the code will look for a window that includes 'firefox.exe' but does NOT include 'private'.  
 This is not case sensitive. 
 If you want to make sure the string '-private' is included in the app window write `[firefox.exe, \-private]`.  
