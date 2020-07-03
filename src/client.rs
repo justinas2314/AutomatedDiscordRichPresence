@@ -13,48 +13,50 @@ fn clear(client: &mut Client) {
 
 
 fn function(client: &mut Client, vector: &Vec<&str>,
-            raw_defaults: Option<&(&str, &str, &str, &str, &str, &str)>,
-            bases: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>) {
+            raw_defaults: Option<&HashMap<String, String>>) {
     let defaults = match raw_defaults {
-        Some(x) => *x,
-        None => ("", "", "", "", "", "") // causes an error later (that's intended lol)
+        Some(x) => x,
+        None => return // causes an error later (that's intended lol)
     };
     // i don't know what this does anymore
-    let mut details = match vector.get(1) {
-        Some(x) if defaults.0 == ".." => *x,
-        Some(x) if match bases.get(defaults.0) {Some(x) if x.0 == ".." => true, _ => false} => *x,
-        _ if bases.contains_key(defaults.0) => if bases[defaults.0].0.len() < 4 {"    "} else {bases[defaults.0].0},
-        _ if defaults.0.len() < 4 => "    ",
-        _ => defaults.0
+    let mut details: &str = match defaults.get("details") {
+        Some(x) if x == ".." => vector[1],
+        Some(x) if x.len() < 4 || x.len() > 29 => "    ",
+        Some(x) => x,
+        None => "    "
     };
-    let mut state = match vector.get(2) {
-        _ if bases.contains_key(defaults.1) => if bases[defaults.1].1 == ".." {if details.len() >= 20 {""} else {"    "}} else {bases[defaults.1].1},
-        _ if defaults.1 == ".." && details.len() >= 20 => "", // will be replaced
-        Some(x) if defaults.1 == ".." => *x,
-        _ if defaults.1.len() < 4 => "    ",
-        _ => defaults.1
+    let mut state: &str = match defaults.get("state") {
+        Some(x) if x == ".." && details.len() >= 20 => "", // will be replaced
+        Some(x) if x.len() < 4 || x.len() > 29 => "    ",
+        Some(x) => x,
+        None => "    "
     };
-    let mut large_text = match vector.get(3) {
-        Some(x) if defaults.4 == ".." => *x,
-        Some(x) if match bases.get(defaults.4) {Some(x) if x.4 == ".." => true, _ => false} => *x,
-        _ if bases.contains_key(defaults.4) => bases[defaults.4].4,
-        _ => defaults.4
+    let large_text: &str = match defaults.get("large_text") {
+        Some(x) if x == ".." => vector[1],
+        Some(x) if x.len() > 128 => too_long(x),
+        Some(x) => x,
+        None => "" // will be replaced
     };
-    let mut small_text = match vector.get(4) {
-        Some(x) if defaults.5 == ".." => *x,
-        Some(x) if match bases.get(defaults.5) {Some(x) if x.5 == ".." => true, _ => false} => *x,
-        _ if bases.contains_key(defaults.5) => bases[defaults.5].5,
-        _ => defaults.5
+    let small_text = match defaults.get("small_text") {
+        Some(x) if x == ".." => vector[1],
+        Some(x) if x.len() > 128 => too_long(x),
+        Some(x) => x,
+        None => "" // will be replaced
     };
-    let large_image = match defaults.2 {
-        x if bases.contains_key(x) => bases[x].2,
-        "" => " ",
-        x => x
+    // i think 0 length strings are not allowed
+    // also if the image name is incorrect no error will occur
+    let large_image: &str = match defaults.get("large_image") {
+        Some(x) if x == ".." => " ",
+        Some(x) if x == "" => " ",
+        Some(x) => x,
+        None => " "
     };
-    let small_image = match defaults.3 {
-        x if bases.contains_key(x) => bases[x].3,
-        "" => " ",
-        x => x
+    // same here
+    let small_image: &str = match defaults.get("small_image") {
+        Some(x) if x == ".." => " ",
+        Some(x) if x == "" => " ",
+        Some(x) => x,
+        None => " "
     };
     if state.len() == 0 && details.len() >= 20 {
         let output = split_line(details);
@@ -66,12 +68,6 @@ fn function(client: &mut Client, vector: &Vec<&str>,
     }
     if details.len() >= 30 {
         details = "    ";
-    }
-    if large_text.len() > 128 {
-        large_text = "";
-    }
-    if small_text.len() > 128 {
-        small_text = "";
     }
     if let Err(e) = client.set_activity(|activity| activity
         .details(details)
@@ -100,7 +96,8 @@ fn function(client: &mut Client, vector: &Vec<&str>,
             }
         })) {
         println!("error occurred while setting an activity -> {}", e);
-        println!("details -> \t ,{}; ,{}; ,{}; ,{}; ,{}; ,{};", details, state, large_image, small_image, large_text, small_text);
+        println!("details -> \t '{}' '{} '{}' '{}' '{}' '{}'",
+                 details, state, large_image, small_image, large_text, small_text);
     }
 }
 
@@ -110,13 +107,13 @@ fn split_line(line: &str) -> (&str, &str) {
     let mut bigger_split_index = 0;
     for (i, j) in line.chars().enumerate() {
         if j == ' ' {
-            if i >= 30 { // strings can't be longer than that
+            if i >= 30 { // strings can't be longer than this
                 break;
             }
             if i > 20 {
                 bigger_split_index = i;
                 break;
-            } else {
+            } else if i > 4 { // strings can't be shorter than this
                 smaller_split_index = i;
             }
         }
@@ -133,8 +130,21 @@ fn split_line(line: &str) -> (&str, &str) {
 }
 
 
-pub fn main(mut client: &mut Client, presets: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>,
-            bases: &HashMap<&str, (&str, &str, &str, &str, &str, &str)>, parsed_input: Vec<&str>) {
+fn too_long(text: &str) -> &str {
+    let mut output_length = 0;
+    for i in text.split(" ") {
+        if output_length + i.len() > 128 {
+            break;
+        } else {
+            output_length += i.len() + 1; // to account for the split spaces
+        }
+    }
+    &text[0..output_length]
+}
+
+
+pub fn main(mut client: &mut Client, commands: &HashMap<String, HashMap<String, String>>,
+            parsed_input: Vec<&str>) {
     // ',,' seperates the values
     // spaces between the values are stripped
     // '..' skips the value and uses the default one
@@ -152,8 +162,7 @@ pub fn main(mut client: &mut Client, presets: &HashMap<&str, (&str, &str, &str, 
         Some(&"clear") => clear(&mut client),
         Some(x) => function(&mut client,
                             &parsed_input,
-                            presets.get(*x),
-                            bases),
+                            commands.get(*x)),
         _ => ()
     }
 }

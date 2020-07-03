@@ -37,13 +37,25 @@ fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
     }
     for i in order {
         let mut contains = true;
-        for j in i.split(",,") {
-            if j.len() > 2 && &j[0..2] == "--" {
-                if lowercase_line.contains(j[2..].replace("[", "").replace("]", "").trim()) {
+        for j in split(i) {
+            if j.len() > 2 && &j[0..1] == "-" {
+                if lowercase_line.contains(j[2..]
+                    .replace("[", "")
+                    .replace("]", "")
+                    .trim()) {
                     contains = false;
                     break;
                 }
-            } else if !lowercase_line.contains(j.replace("[", "").replace("]", "").trim()) {
+            } else if j.len() > 2 && &j[0..1] == "\\" &&  !lowercase_line.contains(j
+                .replacen("\\", "", 1)
+                .replace("[", "")
+                .replace("]", "")
+                .trim()){
+
+            } else if !lowercase_line.contains(j
+                .replace("[", "")
+                .replace("]", "")
+                .trim()) {
                 contains = false;
                 break;
             }
@@ -55,4 +67,29 @@ fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
         }
     }
     (output_full.replace("N/A", "").replace("\"", ""), output_base)
+}
+
+
+fn split(text: &str) -> Vec<String> {
+    let mut output = Vec::new();
+    let mut escape = false;
+    let mut buffer = String::new();
+    for i in text.chars() {
+        match i {
+            '\\' if !escape => {
+                escape = true
+            },
+            ',' if !escape => {
+                output.push(buffer.trim().to_string());
+                buffer.clear();
+                escape = false
+            },
+            x => {
+                buffer.push(x);
+                escape = false
+            }
+        }
+    }
+    output.push(buffer.trim().to_string());
+    output
 }
