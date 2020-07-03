@@ -6,7 +6,12 @@ ONLY WORKS ON WINDOWS
 Compile main.rs and write custom commands inside `config.ini`.  
 There is an example `config.ini` file included.  
 The following arguments can be used:  
- details  state  large_image  small_image  large_text   small_text  
+ details  
+ state  
+ large_image  
+ small_image  
+ large_text   
+ small_text  
 'what_to_detect' can be used as a single string or as a few strings that must or must not be included in the window's name.
 It can be used like this `[firefox.exe, -private]`.
 Here the code will look for a window that includes 'firefox.exe' but does NOT include 'private'.  
