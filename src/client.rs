@@ -32,13 +32,13 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         None => "    "
     };
     let large_text: &str = match defaults.get("large_text") {
-        Some(x) if x == ".." => vector[1],
+        Some(x) if x == ".." => if vector[1].len() > 128 {too_long(vector[1])} else {vector[1]},
         Some(x) if x.len() > 128 => too_long(x),
         Some(x) => x,
         None => "" // will be replaced
     };
     let small_text = match defaults.get("small_text") {
-        Some(x) if x == ".." => vector[1],
+        Some(x) if x == ".." => if vector[1].len() > 128 {too_long(vector[1])} else {vector[1]},
         Some(x) if x.len() > 128 => too_long(x),
         Some(x) => x,
         None => "" // will be replaced
@@ -96,7 +96,7 @@ fn function(client: &mut Client, vector: &Vec<&str>,
             }
         })) {
         println!("error occurred while setting an activity -> {}", e);
-        println!("details -> \t '{}' '{} '{}' '{}' '{}' '{}'",
+        println!("details -> \t '{}' '{}' '{}' '{}' '{}' '{}'",
                  details, state, large_image, small_image, large_text, small_text);
     }
 }
@@ -145,16 +145,6 @@ fn too_long(text: &str) -> &str {
 
 pub fn main(mut client: &mut Client, commands: &HashMap<String, HashMap<String, String>>,
             parsed_input: Vec<&str>) {
-    // ',,' seperates the values
-    // spaces between the values are stripped
-    // '..' skips the value and uses the default one
-    // ',, ,,' leaves the value as ''
-    // ',,,' splits and writes a comma (,)
-    // ',,,,' <- this is retarded and messes the code up don't do this
-    // you can create a conditional list '[string1,, string2]'
-    // every value inside this list must be included to match
-    // ',,--' makes sure that the following value is not included
-    // ',, --' does nothing, use this if you want '--' in your string that must match
     // the details and state values cannot be less than 4 or more than 29
     // the image texts cannot be longer than 128
     // all of these will change to "    " or "" to prevent crashes
