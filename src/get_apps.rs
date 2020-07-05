@@ -28,10 +28,12 @@ fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
     let mut string = String::new();
     let mut output_full = String::new();
     let mut output_base = String::new();
+    let mut escape = false;
     let lowercase_line = line.to_lowercase();
     for i in line.trim().chars() {
         match i {
-            ',' => {string.clear();},
+            '"' => {escape = !escape;},
+            ',' if !escape => {string.clear();},
             x => {string.push(x);}
         }
     }
