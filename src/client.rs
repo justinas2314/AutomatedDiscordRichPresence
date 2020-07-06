@@ -16,9 +16,8 @@ fn function(client: &mut Client, vector: &Vec<&str>,
             raw_defaults: Option<&HashMap<String, String>>) {
     let defaults = match raw_defaults {
         Some(x) => x,
-        None => return // causes an error later (that's intended lol)
+        None => return
     };
-    // i don't know what this does anymore
     let mut details: &str = match defaults.get("details") {
         Some(x) if x == ".." => vector[1],
         Some(x) if x.len() < 4 || x.len() > 29 => "    ",
