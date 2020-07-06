@@ -22,25 +22,36 @@ If state is left as `..` it will be used to fit a part of the description if the
 If the images are left as placeholders they will not be used.  
 Image text left as placeholder will also change to the full name of the window.  
 # Notes
-Discord lets you use up to 150 images currently only 34 are being used  
+Discord lets you use up to 150 images currently only 53 are being used  
 I will probably add more images in the future  
 # Images that can be used right now
 androidstudiologo  
+arduinologo  
+blenderlogo  
 chromelogo  
+clogo  
 cpplogo  
 crunchyrolllogo  
 csharplogo  
+curiouscatlogo  
 discordlogo  
 eclipselogo  
 excellogo  
+facebooklogo  
 firefoxlogo  
 gimplogo  
 githublogo  
+gmaillogo  
+hululogo  
+instagramlogo  
 intellijidealogo  
+ituneslogo  
 javalogo  
 javascriptlogo  
 libreofficelogo  
+linkedinlogo  
 mangadexlogo  
+messengerlogo  
 netflixlogo  
 photoshoplogo  
 powerpointlogo  
@@ -50,12 +61,20 @@ pythonlogo
 readthedocslogo  
 redditlogo  
 rustlogo  
+skypelogo  
+slacklogo  
+snapchatlogo  
 spotifylogo  
 stackoverflowlogo  
+teamspeaklogo  
+telegramlogo  
 twitchlogo  
 twitterlogo  
 visualstudiocodelogo  
 visualstudiologo  
+vlclogo  
+whatsapplogo  
 wikipedialogo  
 wordlogo  
 youtubelogo  
+zoomlogo  
