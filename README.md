@@ -5,7 +5,8 @@ ONLY WORKS ON WINDOWS
 # Usage
 Compile main.rs and write custom commands inside `config.ini`.  
 There is an example `config.ini` file included.  
-Move the config forder to the target (where the .exe file is) directory.  
+If you are going to run the .exe file move the config forder to the target (where the .exe file is) directory.  
+If you are going to run via `cargo run --release` you don't need to move the file.  
 The following arguments can be used:  
  details  
  state  
