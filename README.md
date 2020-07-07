@@ -5,6 +5,7 @@ ONLY WORKS ON WINDOWS
 # Usage
 Compile main.rs and write custom commands inside `config.ini`.  
 There is an example `config.ini` file included.  
+Move the config forder to the target (where the .exe file is) directory.  
 The following arguments can be used:  
  details  
  state  
