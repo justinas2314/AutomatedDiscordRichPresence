@@ -20,13 +20,13 @@ fn function(client: &mut Client, vector: &Vec<&str>,
     };
     let mut details: &str = match defaults.get("details") {
         Some(x) if x == ".." => vector[1],
-        Some(x) if x.len() < 4 || x.len() > 29 => "    ",
+        Some(x) if x.len() < 4=> "    ",
         Some(x) => x,
         None => "    "
     };
     let mut state: &str = match defaults.get("state") {
         Some(x) if x == ".." && details.len() >= 20 => "", // will be replaced
-        Some(x) if x.len() < 4 || x.len() > 29 => "    ",
+        Some(x) if x.len() < 4 => "    ",
         Some(x) => x,
         None => "    "
     };

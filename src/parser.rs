@@ -76,4 +76,3 @@ pub fn get_ordered(apps: Vec<(String, String)>, order: &Vec<&str>) -> Option<(St
     }
     None
 }
-
