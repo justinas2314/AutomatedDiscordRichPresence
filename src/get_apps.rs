@@ -48,8 +48,7 @@ fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
                     contains = false;
                     break;
                 }
-            } else if j.len() > 2 && &j[0..1] == "\\" &&  !lowercase_line.contains(j
-                .replacen("\\", "", 1)
+            } else if j.len() > 1 && &j[0..1] == "\\" &&  !lowercase_line.contains(j[1..]
                 .replace("[", "")
                 .replace("]", "")
                 .trim()){
@@ -82,7 +81,7 @@ fn split(text: &str) -> Vec<String> {
                 escape = true
             },
             ',' if !escape => {
-                output.push(buffer.trim().to_string());
+                output.push(buffer.to_lowercase().trim().to_string());
                 buffer.clear();
                 escape = false
             },
@@ -92,6 +91,6 @@ fn split(text: &str) -> Vec<String> {
             }
         }
     }
-    output.push(buffer.trim().to_string());
+    output.push(buffer.to_lowercase().trim().to_string());
     output
 }
