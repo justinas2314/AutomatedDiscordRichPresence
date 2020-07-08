@@ -14,6 +14,7 @@ fn clear(client: &mut Client) {
 
 fn function(client: &mut Client, vector: &Vec<&str>,
             raw_defaults: Option<&HashMap<String, String>>) {
+    // no i'm not a yandere dev
     let defaults = match raw_defaults {
         Some(x) => x,
         None => return
