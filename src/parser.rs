@@ -10,7 +10,16 @@ pub fn main(text: &str) -> (HashMap<String, HashMap<String, String>>, Vec<&str>)
         }
         match &line[0..1] {
             ";" => continue,
+            "!" => {
+                if buffer.len() != 0 {
+                    let (name, dict) = parse(&buffer, &commands);
+                    commands.insert(name, dict);
+                }
+                buffer.clear();
+                buffer.push(line);
+            }
             "[" => {
+                // should always be true
                 if let Some(x) = line.find("]") {
                     order.push(&line[0..=x]);
                 }

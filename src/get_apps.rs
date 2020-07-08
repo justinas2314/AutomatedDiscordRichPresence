@@ -41,22 +41,14 @@ fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
         let mut contains = true;
         for j in split(i) {
             if j.len() > 2 && &j[0..1] == "-" {
-                if lowercase_line.contains(j[2..]
-                    .replace("[", "")
-                    .replace("]", "")
-                    .trim()) {
+                if lowercase_line.contains(j[2..].trim()) {
                     contains = false;
                     break;
                 }
-            } else if j.len() > 1 && &j[0..1] == "\\" &&  !lowercase_line.contains(j[1..]
-                .replace("[", "")
-                .replace("]", "")
-                .trim()){
-
-            } else if !lowercase_line.contains(j
-                .replace("[", "")
-                .replace("]", "")
-                .trim()) {
+            } else if j.len() > 1 && &j[0..1] == "\\" &&  !lowercase_line.contains(j[1..].trim()){
+                contains = false;
+                break;
+            } else if !lowercase_line.contains(j.trim()) {
                 contains = false;
                 break;
             }
@@ -67,7 +59,7 @@ fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
             break;
         }
     }
-    (output_full.replace("N/A", "").replace("\"", ""), output_base)
+    (output_full.replace("N/A", ""), output_base)
 }
 
 
@@ -85,6 +77,8 @@ fn split(text: &str) -> Vec<String> {
                 buffer.clear();
                 escape = false
             },
+            '[' if !escape => (),
+            ']' if !escape => (),
             x => {
                 buffer.push(x);
                 escape = false
