@@ -23,6 +23,13 @@ If details is left as `..` the full name of the window will be used.
 If state is left as `..` it will be used to fit a part of the description if the description is longer than 20 chars.  
 If the images are left as placeholders they will not be used.  
 Image text left as placeholder will also change to the full name of the window.  
+We can also inherit placeholders.  
+If we define a template as `![TEMPLATE]`  
+`state = this is a state`  
+and then pass it to a different preset `[preset] <- [TEMPLATE]` we will not have to define the state again.  
+This is useful for setting the same value in multiple presets without writing too much.  
+We can also define the template as `[TEMPLATE]` but the template would then match all windows that include 'template'.  
+'!' excludes the template from getting matched to window titles.
 # Notes
 Discord lets you use up to 150 images currently only 53 are being used  
 I will probably add more images in the future  
