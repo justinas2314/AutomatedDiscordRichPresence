@@ -16,7 +16,7 @@ pub fn main(text: &str) -> (HashMap<String, HashMap<String, String>>, Vec<&str>)
                     commands.insert(name, dict);
                 }
                 buffer.clear();
-                buffer.push(line);
+                buffer.push(&line[1..]);
             }
             "[" => {
                 // should always be true
