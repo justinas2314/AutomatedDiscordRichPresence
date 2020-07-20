@@ -2,6 +2,7 @@
 Create custom Discord Rich Presences that toggle on while a certain app is running.  
 This is not a 'serious' project. I am doing this because I've started learning Rust and wanted to write something in it. So don't expect the code to make sense.  
 ONLY WORKS ON WINDOWS
+BECAUSE OF HOW STRING SLICING WORKS IN RUST THIS DOES NOT SUPPORT NON ASCII WINDOW NAMES
 # Usage
 Compile main.rs and write custom commands inside `config.ini`.  
 There is an example `config.ini` file included.  
