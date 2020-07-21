@@ -10,8 +10,15 @@ use discord_rpc_client::Client;
 fn main() {
     let ini_contents= std::fs::read_to_string(
         "config\\config.ini").unwrap();
-    // my hard-coded client change this to use a different client
-    let mut rpc_client = Client::new(696035653711953981)
+    let token: u64 = std::fs::read_to_string("config\\token.txt")
+        .unwrap()
+        .parse()
+        .unwrap();
+    let update_timer: u64 = std::fs::read_to_string("config\\update_every_n_seconds.txt")
+        .unwrap()
+        .parse()
+        .unwrap();
+    let mut rpc_client = Client::new(token)
         .unwrap();
     rpc_client.start();
     let (dict_commands, order) = parser::main(&ini_contents);
@@ -29,6 +36,7 @@ fn main() {
         // back in my day this used to work differently
         client::main(&mut rpc_client, &dict_commands,
                      vec![&running_app.1, &running_app.0]);
-        std::thread::sleep(std::time::Duration::from_secs(60));
+        std::thread::sleep(std::time::Duration::from_secs(update_timer));
     }
+
 }

@@ -14,7 +14,7 @@ fn clear(client: &mut Client) {
 
 fn function(client: &mut Client, vector: &Vec<&str>,
             raw_defaults: Option<&HashMap<String, String>>) {
-    // no i'm not a yandere dev
+    // no i'm not yandere dev
     let defaults = match raw_defaults {
         Some(x) => x,
         None => return
@@ -119,7 +119,7 @@ fn split_line(line: &str) -> (&str, &str) {
         }
     }
     let split_index = match (smaller_split_index, bigger_split_index) {
-        // does abs() exist in rust?
+        // does abs() exist in rust? anyways ewww
         (x, y) if (20 - x as i32) * (20 - x as i32) > (20 - y as i32) * (20 - y as i32) => y,
         (x, _) => x,
     };
@@ -132,6 +132,7 @@ fn split_line(line: &str) -> (&str, &str) {
 
 fn too_long(text: &str) -> &str {
     let mut output_length = 0;
+    // todo fixme
     for i in text.split(" ") {
         if output_length + i.len() > 128 {
             break;

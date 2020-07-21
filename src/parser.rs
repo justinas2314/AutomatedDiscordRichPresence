@@ -55,23 +55,29 @@ fn parse(lines: &Vec<&str>, commands: &HashMap<String, HashMap<String, String>>
         if let "[" = &line[0..1] {
             let mut closed = false;
             let mut arrow = false;
-            for i in 0..line.len() - 1 {
-                match (&line[i..i + 1], &line[i + 1..i + 2]) {
-                    ("\\", "]") => (),
-                    (x, "]") if arrow => {
-                        parent.push_str(x);
-                        parent.push_str("]");
+            let mut buffer_char = None;
+            for i in line.chars() {
+                match buffer_char {
+                    None => {buffer_char = Some(i); continue},
+                    Some(_) => ()
+                }
+                match (buffer_char, i) {
+                    (Some('\\'), ']') => (),
+                    (Some(x), ']') if arrow => {
+                        parent.push(x);
+                        parent.push(']');
                     },
-                    (x, _) if arrow => {parent.push_str(x)},
-                    ("<", "-") if closed => {arrow = true},
-                    (x, "]") if !closed => {
-                        name.push_str(x);
-                        name.push_str("]");
+                    (Some(x), _) if arrow => {parent.push(x)},
+                    (Some('<'), '-') if closed => {arrow = true},
+                    (Some(x), ']') if !closed => {
+                        name.push(x);
+                        name.push(']');
                         closed = true;
                     },
-                    (x, _) if !closed => {name.push_str(x)},
+                    (Some(x), _) if !closed => {name.push(x)},
                     _ => ()
                 }
+                buffer_char = Some(i);
             }
             name = name.trim().to_string();
             if parent.len() != 0 {

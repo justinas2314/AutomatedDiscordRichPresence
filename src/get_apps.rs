@@ -10,8 +10,8 @@ pub fn main(order: &Vec<&str>) -> Vec<(String, String)> {
         .output()
         .expect("Failed to get the running windows")
         .stdout;
-    let s = String::from_utf8(var)
-        .unwrap();
+    let s = String::from_utf8_lossy(&var);
+    println!("s -> {}", s);
     let mut data = Vec::new();
     for i in s.lines() {
         let (full, base) = parse_line(&order, i);
@@ -40,12 +40,12 @@ fn parse_line(order: &Vec<&str>, line: &str) -> (String, String) {
     for i in order {
         let mut contains = true;
         for j in split(i) {
-            if j.len() > 2 && &j[0..1] == "-" {
-                if lowercase_line.contains(j[2..].trim()) {
+            if let Some(0) = j.find("-") {
+                if lowercase_line.contains(j[1..].trim()) {
                     contains = false;
                     break;
                 }
-            } else if j.len() > 1 && &j[0..1] == "\\" &&  !lowercase_line.contains(j[1..].trim()){
+            } else if Some(0) == j.find("\\") && !lowercase_line.contains(j[1..].trim()){
                 contains = false;
                 break;
             } else if !lowercase_line.contains(j.trim()) {
