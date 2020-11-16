@@ -16,7 +16,7 @@ The following arguments can be used:
  small_image  
  large_text   
  small_text  
- + regex
+ plus regex arguments
 The first line is where the preset will be defined. It can be written like this `[firefox.exe, -private]`.
 Here the code will look for a window that includes 'firefox.exe' but does NOT include 'private'.  
 This is not case sensitive. 
