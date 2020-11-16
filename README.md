@@ -40,7 +40,8 @@ details_, state_, large_ and small_ can be used to set up regex for details, sta
 there are 3 arguments:  
  * regex - this regex will be applied to the window name of the window that was matched. This will split the text into groups.
  * format - this is a string used to put the groups into one piece. Example: `{2} and {1}`. The number inside `{}` is the group's index (indexing starts from 1, 0 is the entire matched regex). If group 2 matched to `two` and group 1 matched to `one` the final string will be `two and one`.
- * fallback (optional) - if nothing gets inserted into `format` this will be the string shown instead.
+ * fallback (optional) - if nothing gets inserted into `format` this will be the string shown instead.  
+
 So you could set the large_text field with regex by writing something like this:  
 ```
 large_regex = (\\S*) - (\\S*)
