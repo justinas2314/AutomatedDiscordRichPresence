@@ -10,13 +10,13 @@ There is an example `config.ini` file included.
 If you are going to run the .exe file move the config forder to the target (where the .exe file is) directory.  
 If you are going to run via `cargo run --release` you don't need to move the file.  
 The following arguments can be used:  
- details  
- state  
- large_image  
- small_image  
- large_text   
- small_text  
- plus regex arguments
+* details  
+* state  
+* large_image  
+* small_image  
+* large_text   
+* small_text  
+* plus regex arguments
 The first line is where the preset will be defined. It can be written like this `[firefox.exe, -private]`.
 Here the code will look for a window that includes 'firefox.exe' but does NOT include 'private'.  
 This is not case sensitive. 
