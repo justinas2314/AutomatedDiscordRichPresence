@@ -16,6 +16,7 @@ The following arguments can be used:
  small_image  
  large_text   
  small_text  
+ + regex
 The first line is where the preset will be defined. It can be written like this `[firefox.exe, -private]`.
 Here the code will look for a window that includes 'firefox.exe' but does NOT include 'private'.  
 This is not case sensitive. 
@@ -32,6 +33,23 @@ and then pass it to a different preset `[preset] <- [TEMPLATE]` we will not have
 This is useful for setting the same value in multiple presets without writing too much.  
 We can also define the template as `[TEMPLATE]` but the template would then match all windows that include 'template'.  
 '!' excludes the template from getting matched to window titles.
+# How to use regex
+You do not need to use regex but your discord status will be more boring :].  
+details_, state_, large_ and small_ can be used to set up regex for details, state, large_text, small_text  
+there are 3 arguments:  
+ * regex - this regex will be applied to the window name of the window that was matched. This will split the text into groups.
+ * format - this is a string used to put the groups into one piece. Example: `{2} and {1}`. The number inside `{}` is the group's index (indexing starts from 1, 0 is the entire matched regex). If group 2 matched to `two` and group 1 matched to `one` the final string will be `two and one`.
+ * fallback (optional) - if nothing gets inserted into `format` this will be the string shown instead.
+So you could set the large_text field with regex by writing something like this:  
+```
+large_regex = (\\S*) - (\\S*)
+large_format = working on a file '{2}' in my project '{1}'
+large_fallback = working on something cool
+```
+If the window's name is `Project - main.rs - IntelliJ IDEA` group 1 will be `Project` and group 2 will be `main.rs`  
+So the text on the large image will be `working on a file 'main.rs' in my project 'Project'`.  
+And if the window's name is `Minecraft` `large_regex` will not find anything so nothing will be inserted into `large_format`  
+and `large_fallback` will be used and the text on the large image will be `working on something cool`.
 # Notes
 Discord lets you use up to 150 images currently only 53 are being used  
 I will probably add more images in the future  
