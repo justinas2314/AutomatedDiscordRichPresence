@@ -11,7 +11,6 @@ pub fn main(order: &Vec<&str>) -> Vec<(String, String)> {
         .expect("Failed to get the running windows")
         .stdout;
     let s = String::from_utf8_lossy(&var);
-    println!("s -> {}", s);
     let mut data = Vec::new();
     for i in s.lines() {
         let (full, base) = parse_line(&order, i);

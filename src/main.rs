@@ -2,8 +2,6 @@ mod parser;
 mod get_apps;
 mod client;
 
-extern crate discord_rpc_client;
-
 use discord_rpc_client::Client;
 
 
@@ -11,10 +9,6 @@ fn main() {
     let ini_contents= std::fs::read_to_string(
         "config\\config.ini").unwrap();
     let token: u64 = std::fs::read_to_string("config\\token.txt")
-        .unwrap()
-        .parse()
-        .unwrap();
-    let update_timer: u64 = std::fs::read_to_string("config\\update_every_n_seconds.txt")
         .unwrap()
         .parse()
         .unwrap();
@@ -36,7 +30,7 @@ fn main() {
         // back in my day this used to work differently
         client::main(&mut rpc_client, &dict_commands,
                      vec![&running_app.1, &running_app.0]);
-        std::thread::sleep(std::time::Duration::from_secs(update_timer));
+        std::thread::sleep(std::time::Duration::from_secs(60));
     }
 
 }

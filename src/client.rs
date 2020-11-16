@@ -1,6 +1,4 @@
-extern crate discord_rpc_client;
-
-
+use regex::Regex;
 use discord_rpc_client::Client;
 use std::collections::HashMap;
 
@@ -9,6 +7,20 @@ fn clear(client: &mut Client) {
     if let Err(e) = client.clear_activity() {
         println!("Failed to clear the current activity -> {}", e);
     }
+}
+
+
+fn format(expression: &str, text: &str, format_str: &str) -> String {
+    let mut format_string = format_str.to_string();
+    if let Some(capture) = Regex::new(expression)
+        .unwrap()
+        .captures(text) {
+        for i in 0..capture.len() {
+            format_string = format_string.replace(&(
+                "{".to_string() + &i.to_string() + "}"), &capture[i]);
+        }
+    }
+    format_string
 }
 
 
@@ -25,24 +37,148 @@ fn function(client: &mut Client, vector: &Vec<&str>,
         Some(x) => x,
         None => "    "
     };
+    let mut details_string: Option<String> = None;
+    match (defaults.get("details_regex"),
+           defaults.get("details_format"),
+           defaults.get("details_fallback")) {
+        (Some(a), Some(b), Some(c)) => {
+            let s = format(a, vector[1], b);
+            if b == &s {
+                details_string = Some(c.to_string());
+            } else {
+                details_string = Some(s);
+            }
+        },
+        (Some(a), Some(b), None) => {
+            details_string = Some(format(a, vector[1], b));
+        },
+        _ => ()
+    };
+    if let Some(s) = &details_string {
+        if s.len() > 128 {
+            if let Some(x) = defaults.get("details_fallback") {
+                details = x;
+            } else {
+                details = too_long(s);
+            }
+        } else if s.len() < 4 {
+            if let Some(x) = defaults.get("details_fallback") {
+                details = x;
+            } else {
+                details = "    ";
+            }
+        } else {
+            details = s;
+        }
+    }
     let mut state: &str = match defaults.get("state") {
         Some(x) if x == ".." && details.len() >= 20 => "", // will be replaced
         Some(x) if x.len() < 4 => "    ",
         Some(x) => x,
         None => "    "
     };
-    let large_text: &str = match defaults.get("large_text") {
+    let mut state_string: Option<String> = None;
+    match (defaults.get("state_regex"),
+           defaults.get("state_format"),
+           defaults.get("state_fallback")) {
+        (Some(a), Some(b), Some(c)) => {
+            let s = format(a, vector[1], b);
+            if b == &s {
+                state_string = Some(c.to_string());
+            } else {
+                state_string = Some(s);
+            }
+        },
+        (Some(a), Some(b), None) => {
+            state_string = Some(format(a, vector[1], b));
+        },
+        _ => ()
+    };
+    if let Some(s) = &state_string {
+        if s.len() > 128 {
+            if let Some(x) = defaults.get("state_fallback") {
+                state = x;
+            } else {
+                state = too_long(s);
+            }
+        } else if s.len() < 4 {
+            if let Some(x) = defaults.get("state_fallback") {
+                state = x;
+            } else {
+                state = "    ";
+            }
+        } else {
+            state = s;
+        }
+    }
+    let mut large_text: &str = match defaults.get("large_text") {
         Some(x) if x == ".." => if vector[1].len() > 128 {too_long(vector[1])} else {vector[1]},
         Some(x) if x.len() > 128 => too_long(x),
         Some(x) => x,
         None => "" // will be replaced
     };
-    let small_text = match defaults.get("small_text") {
+    let mut large_text_string: Option<String> = None;
+    match (defaults.get("large_regex"),
+           defaults.get("large_format"),
+           defaults.get("large_fallback")) {
+        (Some(a), Some(b), Some(c)) => {
+            let s = format(a, vector[1], b);
+            if b == &s {
+                large_text_string = Some(c.to_string());
+            } else {
+                large_text_string = Some(s);
+            }
+        },
+        (Some(a), Some(b), None) => {
+            large_text_string = Some(format(a, vector[1], b));
+        },
+        _ => ()
+    };
+    if let Some(s) = &large_text_string {
+        if s.len() > 128 {
+            if let Some(x) = defaults.get("large_fallback") {
+                large_text = x;
+            } else {
+                large_text = too_long(s);
+            }
+        } else {
+            large_text = s;
+        }
+    }
+    let mut small_text = match defaults.get("small_text") {
         Some(x) if x == ".." => if vector[1].len() > 128 {too_long(vector[1])} else {vector[1]},
         Some(x) if x.len() > 128 => too_long(x),
         Some(x) => x,
         None => "" // will be replaced
     };
+    let mut small_text_string: Option<String> = None;
+    match (defaults.get("small_regex"),
+           defaults.get("small_format"),
+           defaults.get("small_fallback")) {
+        (Some(a), Some(b), Some(c)) => {
+            let s = format(a, vector[1], b);
+            if b == &s {
+                small_text_string = Some(c.to_string());
+            } else {
+                small_text_string = Some(s);
+            }
+        },
+        (Some(a), Some(b), None) => {
+            small_text_string = Some(format(a, vector[1], b));
+        },
+        _ => ()
+    };
+    if let Some(s) = &small_text_string {
+        if s.len() > 128 {
+            if let Some(x) = defaults.get("small_fallback") {
+                small_text = x;
+            } else {
+                small_text = too_long(s);
+            }
+        } else {
+            small_text = s;
+        }
+    }
     // i think 0 length strings are not allowed
     // also if the image name is incorrect no error will occur
     let large_image: &str = match defaults.get("large_image") {
