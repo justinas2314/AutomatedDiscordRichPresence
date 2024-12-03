@@ -1,5 +1,7 @@
 # AutomatedDiscordRichPresence
 Create custom Discord Rich Presences that toggle on while a certain app is running.  
+### Not Actively Maintained
+Though at a certain point this used to work, I have not updated it in 4 years and do not guarantee that it still does.
 # Disclaimers
 This is not a 'serious' project. I am doing this because I've started learning Rust and wanted to write something in it. So don't expect the code to make sense.  
 Only works on Windows.  
